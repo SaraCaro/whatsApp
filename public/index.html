@@ -1,1 +1,209 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><title>React App</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/54411caa33.js" crossorigin="anonymous"></script><script defer="defer" src="/static/js/main.ad50e444.js"></script><link href="/static/css/main.073c9b0a.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp</title>
+
+    <script src="https://kit.fontawesome.com/54411caa33.js" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+</head>
+
+<body class="text-bg-dark">
+    <div class="container bg-dark" id="entrada">
+        <nav class="nav">
+            <img class="me-2" src="./imagenes/WhatsApp_icon.png" alt="imagen WhatsApp">
+            <h1>WhatsApp</h1>
+        </nav>
+        <div class="container-userForm">
+            <form action="" class="userForm">
+                <input type="text" id="inputUsername" placeholder="Introduce tu nombre de usuario" required>
+                <div class="seleccionAvatar">
+                    <div class="avatar">
+                        <img src="./imagenes/icono1H.png" alt="">
+                        <input type="radio" required name="avatar" value="./imagenes/icono1H.png">
+                    </div>
+                    <div class="avatar">
+                        <img src="./imagenes/icono2M.png" alt="">
+                        <input type="radio" required name="avatar" value="./imagenes/icono2M.png">
+                    </div>
+                </div>
+                <button type="submit" id="joinBtn">Unirme a la Sala <i class="fa-solid fa-right-to-bracket"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>        
+        var socket = io();
+        
+        var userForm = $(".userForm");
+        var form = document.getElementById('form');
+        var usernameForm = document.getElementById("usernameForm");
+        var usernameInput = document.getElementById("usernameInput");
+        var userTyping = document.getElementsByClassName("users-title")[0];
+
+        // formulario de entrada
+        $(document).on("submit", ".userForm", function(e) {
+            e.preventDefault();
+            var username = $("#inputUsername").val();
+            var room = 1;
+            var img = $("input[name='avatar']:checked").val();
+
+            socket.emit('setUsername', {username: username, room: room, userImg: img});
+
+            $("#usernameInput").val();
+
+            $(".container").html(`
+                <nav class="nav mb-3">
+                    <img class="me-2" src="./imagenes/WhatsApp_icon.png" alt="imagen WhatsApp">
+                    <h1>WhatsApp</h1>
+                </nav>
+                <div class="whatsapp-container">
+                    <div class="users">
+                        <h2 class="leftRoom">Abandonar Sala <i class="fa-solid fa-right-from-bracket"></i></h2>
+                        <div class="usersConnected"></div>
+                    </div>
+                    <div class="messagesCont">
+                        <div id="roomName">
+                            SALA ${room} - Usuarios conectados: <span id="usersConnected"></span>
+                        </div>
+                        <div class="messages">
+                        </div>
+                        <form action="" id="form">
+                            <input type="text" id="input" placeholder="Escribe" autocomplete="off">
+                            <button id="submit"><i class="fa-solid fa-share"></i></button>
+                        </form>
+                    </div>
+                </div>
+            `);
+        })
+
+        // funcion para cuando se envia un mensaje
+        $(document).on('submit', '#form', function(e) {
+            e.preventDefault();
+            if (input.value) {
+                var today = new Date();
+                if(today.getMinutes() < 10){
+                    var time = today.getHours() + ":0" + today.getMinutes();    
+                }else{
+                    var time = today.getHours() + ":" + today.getMinutes();
+                }
+                socket.emit('message', {msg: input.value, time: time});
+                input.value = '';
+            }
+        });
+
+        // mostrar usuarios conectados
+        socket.on('usersConnected', (users)=>{
+            $(".usersConnected").html("");
+            for(user of users){
+                console.log(user);
+                $(".usersConnected").append(`
+                <div class="user">
+                    <img src="${user.userImg}">
+                    <div class="user-info">
+                        <span class="user-info-name">${user.username}</span>    
+                        <span class="isTyping">Escribiendo...</span>
+                        <input type="hidden" id="${user.userID}"/>
+                    </div>
+                </div>
+                `);
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        })
+
+        // calcular numero de usuarios conectados
+        socket.on("numUsersConnected", (num)=>{
+            $("#usersConnected").html(num)
+        })
+
+        // mostrar mensaje de usuario conectado
+        socket.on("userHasConnected", (username)=>{
+            $(".messages").append(`
+                <div class="userConnection">
+                    ${username} se ha conectado
+                </div>
+            `);
+            window.scrollTo(0, document.body.scrollHeight);
+        })
+
+        // mostrar mensaje de usuario desconectado
+        socket.on("userHasDisconnected", (username)=>{
+            $(".messages").append(`
+                <div class="userConnection">
+                    ${username} se ha desconectado <i class="fa-solid fa-right-from-bracket"></i>
+                </div>
+            `);
+            window.scrollTo(0, document.body.scrollHeight);
+        })
+
+        // funcion enviar mensaje
+        socket.on('message', function(datosMsg) {
+            if(socket.id == datosMsg.serverID){
+                newMsg("ownUserMessage", datosMsg.username, datosMsg.msg, datosMsg.time)
+            }else{
+                newMsg("otherUserMessage", datosMsg.username, datosMsg.msg, datosMsg.time)
+            }
+            $(".messages").animate(
+                { scrollTop: $(".messages").prop("scrollHeight") },
+                500
+            );
+        });
+
+        // funcion mostrar texto escribiendo en el usuario correspondiente
+        $(document).on('keyup', '#input', function(e) {
+            if($("#input").val() != ""){
+                socket.emit('userTyping',  {isTyping: true});
+            }else{
+                socket.emit('userTyping',  {isTyping: false});
+            }
+        })
+
+        socket.on("userTyping", (data)=>{
+            if(!data.isTyping) {
+                $(`#${data.userID}`).siblings('.isTyping').css("display", "none"); 
+            }else{
+                $(`#${data.userID}`).siblings('.isTyping').css("display", "block"); 
+            }
+        })
+
+        // funcion para diferenciar el mensaje de usuario propio y el de los demas
+        function newMsg(typeClass, username, msg, timeMsg){
+            var newMsg = "";
+
+            if(typeClass == "ownUserMessage"){
+                var newMsg = $(`
+                <div class="${typeClass}">
+                    <span class="msg">${msg}</span>
+                    <span class="timeMsg">${timeMsg}</span>
+                </div>
+                `);
+            }else{
+                var newMsg = $(`
+                <div class="${typeClass}">
+                    <span class="usernameMsg">${username}</span>
+                    <span class="msg">${msg}</span>
+                    <span class="timeMsg">${timeMsg}</span>
+                </div>
+            `);
+            }
+
+            $(".messages").append(newMsg)
+        }
+
+        $(document).on("click", ".leftRoom", ()=>{
+            window.location.reload();
+        })
+    </script>
+</body>
+</html>

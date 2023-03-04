@@ -1,0 +1,297 @@
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.container{
+    color: white;
+    margin-top: 2em;
+    padding: 0;
+}
+#entrada{
+    height: 89.5vh;
+}
+.container-userForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+}
+.userForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+    width: 70%;
+}
+#inputUsername, #selectRoom, #joinBtn{
+    border: none;
+    outline: none;
+    padding: 1em;
+    border-radius: 5px;
+    width: 60%;
+}
+#joinBtn{
+    width: 40%;
+    background-color: #205E61;
+    color: white;
+    font-weight: bold;
+    transition: all .2s ease-in-out;
+}
+#joinBtn:hover{
+    transition: all .2s ease-in-out;
+    background-color: black;
+    box-shadow: 0px 0px 10px #205E61;
+}
+.seleccionAvatar{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 60%;
+}
+.avatar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+}
+.avatar img{
+    width: 40%;
+    border-radius: 100%;
+}
+
+/* Sala */
+.nav{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.nav img{
+    width: 5%;
+}
+.whatsapp-container{
+    position: relative;
+    height: 82vh;
+    width: 100%;
+    display: flex;
+}
+.users{
+    flex-basis: 25%;
+    height: 100%;
+}
+.user{
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    padding-left: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    margin-right: 2rem;
+    list-style: none;
+    border-radius: 5px;
+    font-size: larger;
+}
+.user img{
+    width: 25%;
+    border-radius: 100%;
+    padding-right: 1rem;
+}
+.isTyping{
+    font-size: 10px;
+    font-weight: bold;
+    color: #205E61;
+    letter-spacing: 1px;
+    display: none;
+}
+.messagesCont{
+    flex-basis: 75%;
+    height: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid white;
+    background-image: url(../imagenes/fondo.jpg);
+}
+.messages{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2.3em;
+    min-height: 70vh;
+    width: 100%;
+    padding: 1em;
+    padding-bottom: 2em;
+    overflow-y: scroll;
+}
+#roomName{
+    position: absolute;
+    top: 0;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #205E61;
+    margin-top: 1em;
+    border-radius: 5px;
+    padding: 0.3em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+#form{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 69%;
+    margin: .3em;
+}
+#input{
+    width: 98%;
+    height: 5vh;
+    padding-left: .7em;
+    border-radius: 50px 0% 0% 50px;
+    border: none;
+    outline: none;
+}
+#submit{
+    width: 5vh;
+    height: 5vh;
+    border-radius: 0% 100% 100% 0%;
+    border: none;
+    border-left: 1px solid black;
+    outline: none;
+    transition: all .2s ease-in-out;
+}
+#submit:hover{
+    color: #205E61;
+    background-color: black;
+    transition: all .2s ease-in-out;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+#btnLogin:hover a{
+    transition: all .3s ease-in-out;
+    color: black;
+}
+.usernameInput{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 45%;
+    left: 0;
+    width: 20vw;
+    height: 10vh;
+    background-color: #205E61;
+    border-radius: 0% 20px 20px 0%;
+    border: 2px solid black;
+    border-left: none;
+    transform: translate(-100%);
+    transition: all .3s ease-in-out;
+}
+.showUsername{
+    transform: translate(0);
+}
+.rotateArrow{
+    transform: rotate(180deg);
+}
+#usernameInput, #usernameSubmit{
+    border: none;
+    outline: none;
+    padding: .3em;
+}
+.flecha{
+    position: absolute;
+    background-color: white;
+    right: -1.95em;
+    color: black;
+    padding: .5em;
+    border-radius: 0% 20px 20px 0%;
+    border: 2px solid black;
+    border-left: none;
+    cursor: pointer;
+}
+.userConnection{
+    width: 30%;
+    margin: 0 auto;
+    margin-top: .3em;
+    margin-bottom: .3em;
+    border-radius: 10px;
+    background-color: rgb(239, 235, 235);
+    text-align: center;
+    padding: .1em;
+    color: black;
+}
+.ownUserMessage{
+    width: fit-content;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    margin-top: .2em;
+    margin-bottom: .2em;
+    border-radius: 5px;
+    background-color: #205E61;
+    text-align: center;
+    padding-right: .4em;
+    color: white;
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 5em;
+}
+.otherUserMessage{
+    width: fit-content;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    margin-top: .2em;
+    margin-bottom: .2em;
+    border-radius: 5px;
+    background-color: #444d4d;
+    text-align: center;
+    padding-right: .4em;
+    color: white;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 5em;
+}
+.msg{
+    align-self: flex-start;
+}
+.fa-check-double{
+    font-size: .8em;
+}
+.timeMsg{
+    align-self: flex-end;
+    font-size: 12px;
+}
+.usernameMsg{
+    align-self: flex-start;
+    color: white;
+    font-weight: bold;
+}
+.leftRoom{
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    margin-right: 0.2em;
+    border-radius: 5px;
+    transition: all .2s ease-in-out;
+}
+.leftRoom:hover{
+    cursor: pointer;
+    font-size: 1.7em;
+    transition: all .2s ease-in-out;
+    box-shadow: 0px 0px 10px #205E61;
+}
